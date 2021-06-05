@@ -1,0 +1,17 @@
+<a href="/patients/create">New Patient</a>
+<h1>HELLO YOU ARE IN LIST OF PATIENTS VIEEEEW</h1>
+
+    <ul>
+        {{#each patients}}
+        <li>
+            {{this.firstSurname}}
+            {{this.secondSurname}},
+            {{this.name}}
+        </li>
+        <a href="/patients/{{id}}">See details</a>
+        <a href="/patients/{{id}}/edit">Edit</a> 
+        <form action="/patients/{{id}}/delete" method="POST">
+            <button>Delete</button>
+        </form>
+        {{/each}}
+    </ul>

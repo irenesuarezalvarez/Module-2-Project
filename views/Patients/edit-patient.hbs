@@ -1,0 +1,43 @@
+{{!-- views/books-edit.hbs --}}
+
+<h2>Edit the patient: {{patient.firstSurname}} {{patient.secondSurname}}, {{patient.name}}</h2>
+
+<form action="/patients/{{patient.id}}/edit" method="POST">
+    <label>
+        Name:
+        <input type="text" name="name" value="{{patient.name}}" />
+    </label>
+
+    <label>
+        First surname:
+        <input type="text" name="firstSurname" value="{{patient.firstSurname}}" />
+    </label>
+
+    <label>
+        Second surname:
+        <input type="text" name="secondSurname" value="{{patient.secondSurname}}" />
+    </label>
+
+    <label>
+        Email:
+        <input type="email" name="email" value="{{patient.email}}" />
+    </label>
+
+     <label>
+        phone:
+        <input type="number" name="phone" value="{{patient.phone}}" />
+    </label>
+
+     <label>
+        Address:
+        <textarea name="address" cols="30" rows="4">{{patient.address}}</textarea>
+     </label>
+
+
+    <label>
+        first:
+        <input type="text" name="first"  value="{{patient.first}}" />
+    </label>
+
+    <button>Save changes</button>
+</form>

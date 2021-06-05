@@ -1,0 +1,11 @@
+<h1>You are in prof profile</h1>
+
+{{#if professional}}
+  <h2>Welcome, {{ professional.name }}!</h2>
+  <p>This is your profile page my friend!</p>
+  <button>
+    <a href="/professional-profile">Reload the page</a>
+  </button>
+{{else}}
+  <p>Still no logged in user, sorry!</p>
+{{/if}}
