@@ -44,7 +44,8 @@ app.use('/', droneRoutes) */
 
 //to access to the routes
 app.use('/', require('./routes/index'));
-app.use('/login', require('./routes/authentication-routes.js'))
+app.use('/login', require('./routes/login-routes.js'));
+app.use('/signup', require('./routes/signup-routes.js'));
 app.use('/patients', require('./routes/patients-routes'));
 
 
