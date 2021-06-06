@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 
 //CREATE PATIENTS
 router.get('/create', (req, res, next) => {
-  res.render("Patients/create-new-patient")
+  res.render("patients/create-new-patient")
 });
 
 router.post('/create', (req, res, next) => { 
@@ -33,7 +33,7 @@ router.get('/:id/edit', (req, res) => {
   const { id } = req.params;
  
   Patient.findById(id)
-    .then((patientToEdit) => res.render('Patients/edit-patient', {patient : patientToEdit}))
+    .then((patientToEdit) => res.render('patients/edit-patient', {patient : patientToEdit}))
     .catch(error => next(error));
 });
 

@@ -3,15 +3,15 @@ const router = express.Router();
 const Professional = require('../models/Professional.model');
 
 //LOG-IN GET ROUTE
-router.get('/login', (req, res) => res.render('login'));
+router.get('/', (req, res) => res.render('login'));
 
 //LOG-IN POST ROUTE
-router.post('/login', (req, res, next) => {
+router.post('/', (req, res, next) => {
     console.log('SESSION =====> ', req.session);
     const { email, password } = req.body;
    
     if (email === '' || password === '') {
-      res.render('auth/login', {
+      res.render('login', {
         errorMessage: 'Please enter both, email and password to login.'
       });
       return;
@@ -20,7 +20,7 @@ router.post('/login', (req, res, next) => {
     Professional.findOne({ email })
       .then(professional => {
         if (!professional) {
-            res.render('auth/login', { errorMessage: 'Email is not registered. Try with other email.' });
+            res.render('login', { errorMessage: 'Email is not registered. Try with other email.' });
             return;
         } else if (bcryptjs.compareSync(password, professional.passwordHash)) {
               //******* SAVE THE USER IN THE SESSION ********//

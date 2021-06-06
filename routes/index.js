@@ -5,9 +5,8 @@ const router = express.Router();
 
 /* GET home page */
 router.get("/", (req, res) => res.render("home"));
-router.get("/login",(req, res) => {
-    console.log('you are in log in');
-    res.render("login")
-})
+
+//SIGN UP GE ROUTE
+router.get('/signup', (req, res) => res.render('signup'));
 
 module.exports = router;
