@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require("path");
@@ -5,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const favicon = require("serve-favicon");
 const mongoose = require('mongoose');
 require('./config/session.config')(app);
+
 
 const DB_NAME = process.env.MONGODB_URI || "list-of-patients";
  
@@ -42,6 +44,7 @@ app.use('/', droneRoutes) */
 
 //to access to the routes
 app.use('/', require('./routes/index'));
+app.use('/login', require('./routes/authentication-routes.js'))
 app.use('/patients', require('./routes/patients-routes'));
 
 
