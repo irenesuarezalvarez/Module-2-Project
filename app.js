@@ -32,7 +32,7 @@ mongoose.connect(`mongodb://localhost/${DB_NAME}`, {
  // Handles access to the public folder
  app.use(express.static(path.join(__dirname, "..", "public")));
 
-
+ app.use(express.static(__dirname + '/public')); //NEEDED????
  // Handles access to the favicon
  //app.use(favicon(path.join(__dirname, "..", "public", "images", "favicon.ico")));
 /* const droneRoutes = require('./routes/drones')

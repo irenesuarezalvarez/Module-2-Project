@@ -1,0 +1,22 @@
+
+body{
+    margin: 0px 0px;
+    padding: 0px;
+}
+.background-img{
+    background-image: url("../images/screenshot-20210607-194413.png");
+    height: 100vh;
+    width: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo{
+    height: 35px;
+}
+
+.big-logo{
+    height: 17rem;
+}
+
