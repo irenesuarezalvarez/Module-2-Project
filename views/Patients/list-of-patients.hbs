@@ -1,7 +1,8 @@
 
 <h1>HELLO YOU ARE IN LIST OF PATIENTS VIEEEEW</h1>
-{{#if professional}}
-    <h2>Welcome, {{ professional.name }}!</h2>
+
+{{#if professional}} 
+    <h2>Welcome,  {{ professional }}!</h2>
     <a href="/patients/create">New Patient</a>
     <ul>
         {{#each patients}}
@@ -17,7 +18,7 @@
         </form>
         {{/each}}
     </ul>
-{{else}}
+{{else}} 
   <p>Still no logged in, sorry! Log in or sign up to access to your list of patients</p>
-{{/if}}
+{{/if}} 
     

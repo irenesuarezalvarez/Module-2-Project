@@ -43,13 +43,13 @@ router.post('/', (req, res, next) => {
     })
     .then(userFromDB => {
       console.log('Newly created user is: ', userFromDB);
-      res.redirect('/patients');
+      res.redirect('patients');
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render('/signup', { errorMessage: error.message });
+        res.status(500).render('signup', { errorMessage: error.message });
       } else if (error.code === 11000) {
-        res.status(500).render('/signup', {
+        res.status(500).render('signup', {
            errorMessage: 'Username and email need to be unique. Either username or email is already used.'
         });
       } else {

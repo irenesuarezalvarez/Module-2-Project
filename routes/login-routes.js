@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Professional = require('../models/Professional.model');
+const bcryptjs = require('bcryptjs');
 
 //LOG-IN GET ROUTE
 router.get('/', (req, res) => res.render('login'));
@@ -26,7 +27,10 @@ router.post('/', (req, res, next) => {
             //******* SAVE THE USER IN THE SESSION ********//
             /* req.session.currentUser = user;
             res.redirect('/userProfile'); */
-          res.render('/patients', { professional });
+          /* res.render('patients/list-of-patients', { professional }); */
+          req.session.user = professional;
+          console.log(req.session, '<--aqui')
+          res.redirect('/patients');
         } else {
             res.render('login', { errorMessage: 'Incorrect password.' });
         }
