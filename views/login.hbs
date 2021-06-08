@@ -1,14 +1,36 @@
-<form action="/login" method="POST">
-  <label for="email">Email</label>
-  <input id="email" type="email" name="email" />
- 
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" />
- 
-  <button type="submit">Login</button>
+<div class="container">
+  
+  <h2 class="my-4 text-center">Log in</h2>
 
-{{!--   {{#if errorMessage}}
-      <p class="error">{{errorMessage}}</p>
-  {{/if}} --}}
+  <form action="/login" method="POST" class="form-inline justify-content-center flex-column flex-md-row">
 
-</form>
+    <div class="from-group my-2">
+      <label for="email" class="mx-2">Email</label>
+      <input id="email" type="email" name="email" class="form-control"/>
+    </div>
+
+    <div class="from-group my-2">
+      <label for="password" class="mx-2">Password</label>
+      <input id="password" type="password" name="password" class="form-control"/>
+    </div>
+    
+    <div class="form-group mx-2 my-4">
+      <button type="submit" class="btn btn-info col-12">Log In</button>
+    </div>
+    
+
+    {{#if errorMessage}}
+        <p class="error">{{errorMessage}}</p>
+    {{/if}} 
+
+  </form>
+</div>
+
+
+
+
+
+  
+ 
+
+

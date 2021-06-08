@@ -23,10 +23,10 @@ router.post('/', (req, res, next) => {
             res.render('login', { errorMessage: 'Email is not registered. Try with other email.' });
             return;
         } else if (bcryptjs.compareSync(password, professional.passwordHash)) {
-              //******* SAVE THE USER IN THE SESSION ********//
+            //******* SAVE THE USER IN THE SESSION ********//
             /* req.session.currentUser = user;
             res.redirect('/userProfile'); */
-          res.render('professional/professional-profile', { professional });
+          res.render('/patients', { professional });
         } else {
             res.render('login', { errorMessage: 'Incorrect password.' });
         }
