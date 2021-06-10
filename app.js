@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
-//const favicon = require("serve-favicon");
+const favicon = require("serve-favicon");
 
 const DB_NAME = process.env.MONGODB_URI;
  
@@ -70,8 +70,8 @@ app.use('/login', require('./routes/login-routes.js'));
 app.use('/signup', require('./routes/signup-routes.js'));
 app.use('/patients', require('./routes/patients-routes'));
 
-//app.use(favicon(path.join(__dirname, "..", "public", "images", "favicon.ico")));
-//app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
+app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
+app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 
 const PORT = process.env.PORT || 3000;
