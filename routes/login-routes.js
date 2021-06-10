@@ -29,7 +29,7 @@ router.post('/', (req, res, next) => {
             res.redirect('/userProfile'); */
           /* res.render('patients/list-of-patients', { professional }); */
           req.session.user = professional;
-          console.log(req.session, '<--aqui')
+          console.log(req.session, '<--log in route')
           res.redirect('/patients');
         } else {
             res.render('login', { errorMessage: 'Incorrect password.' });

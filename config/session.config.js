@@ -1,6 +1,7 @@
+//FILE NOT USED FOR NOW
+const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 
 // since we are going to USE this middleware in the app.js,
 // let's export it and have it receive a parameter
@@ -13,11 +14,12 @@ module.exports = app => {
       cookie: {
         sameSite: 'none',
         httpOnly: true,
-        maxAge: 60000
+        maxAge: 60000,
+        secure: true
       },
       store: MongoStore.create({
-        mongoUrl:`mongodb://localhost/list-of-patients-of-dr`,
-        // ttl => time to live
+        mongoUrl: process.env.MONGODB_URI,
+        ttl: 60*60*24
       })
     })
   );

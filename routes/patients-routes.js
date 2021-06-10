@@ -4,7 +4,7 @@ const Patient = require('../models/Patient.model');
 
 //LIST PATIENTS
 router.get('/', (req, res, next) => { 
-  console.log('hello', req.session);
+  console.log('Patients route', req.session);
   Patient.find()
   .then(patients => {
     res.render('patients/list-of-patients', { patients })
