@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//app.set("trust proxy", 1)
+app.set("trust proxy", 1);
 app.use(session({
   secret: process.env.SESS_SECRET,
   resave: true,
@@ -32,7 +32,7 @@ app.use(session({
   cookie: {
     maxAge: 24 * 60 * 60 * 365 * 1000
   }
-}))
+})) 
 
 /* app.use(
   session({

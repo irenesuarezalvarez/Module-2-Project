@@ -1,31 +1,41 @@
 const express = require('express');
 const router = express.Router();
 const Patient = require('../models/Patient.model');
+const Professional = require('../models/Professional.model'); ///NEW
+
 
 //LIST PATIENTS
-router.get('/', (req, res, next) => { 
-  console.log('Patients route', req.session);
+router.get('/', (req, res) => { 
   Patient.find()
-  .then(patients => {
-    res.render('patients/list-of-patients', { patients })
-  })
-  .catch(err => console.log(err))
+    .populate('professional')
+    .then(patients => {
+      console.log('HOLA IRENE AQUIIIII, patients route get', patients);
+      res.render('patients/list-of-patients', { patients })
+    })
+    .catch(err => console.log(err))
 });
 
 //CREATE PATIENTS
-router.get('/create', (req, res, next) => {
-  res.render("patients/create-new-patient")
+router.get('/create', (req, res) => {
+  Professional.find()
+  .then((professional) => {
+    res.render("patients/create-new-patient", { professional });
+  })
+  .catch((err) => console.log(`Err while displaying post input page: ${err}`));
+  
 });
 
 router.post('/create', (req, res, next) => { 
- console.log(req.body);
- const { name, firstSurname, secondSurname, email, phone, address, first } = req.body;
+ const { name, firstSurname, secondSurname, email, phone, address, first, professional } = req.body;
 
- Patient.create({ name, firstSurname, secondSurname, email, phone, address, first })
+ Patient.create({ name, firstSurname, secondSurname, email, phone, address, first, professional })
     .then((patientsFromDb) => {
-      console.log(patientsFromDb);
-      res.redirect("/patients")
+      return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
     }) 
+    .then((pat) =>{
+      console.log(pat);
+      res.redirect('/patients')
+    })
     .catch(error => console.log(`Error while creating a new patient:`, error));
 });
 
@@ -41,9 +51,9 @@ router.get('/:id/edit', (req, res) => {
 
 router.post('/:id/edit', (req, res) => {
   const { id } = req.params;
-  const {  name, firstSurname, secondSurname, email, phone, address, first } = req.body;
+  const {  name, firstSurname, secondSurname, email, phone, address, first, professional } = req.body;
  
-  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, first }, { new: true }) //WHY WE NEED THE NEW?
+  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, first, professional }, { new: true }) //WHY WE NEED THE NEW?
     .then(() => res.redirect('/patients'))
     .catch(error => next(error));
 });

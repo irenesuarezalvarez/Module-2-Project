@@ -8,7 +8,8 @@ const patientSchema = new Schema({
     email: String,
     phone: Number,
     address: String,
-    first: String
+    first: String,
+    professional: { type: Schema.Types.ObjectId, ref: 'Professional' }, //????
 });
 
 

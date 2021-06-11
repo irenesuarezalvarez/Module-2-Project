@@ -1,8 +1,8 @@
 
 <h1>HELLO YOU ARE IN LIST OF PATIENTS VIEEEEW</h1>
 
-{{#if professional}} 
-    <h2>Welcome,  {{ professional }}!</h2>
+ {{#if patients}} 
+  {{!--  <h2>Welcome,  {{ patients.professional }}!</h2> --}}
     <a href="/patients/create">New Patient</a>
     <ul>
         {{#each patients}}
@@ -10,6 +10,9 @@
             {{this.firstSurname}}
             {{this.secondSurname}},
             {{this.name}}
+            <br>
+            {{this.professional.username}}
+
         </li>
         <a href="/patients/{{id}}">See details</a>
         <a href="/patients/{{id}}/edit">Edit</a> 

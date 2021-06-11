@@ -1,4 +1,4 @@
-<form action="" method="POST">
+<form action="" method="POST"> {{!-- NEW action ????--}}
 
     <label for="name">Name</label>
     <input id="name" type="name" name="name" />
@@ -21,5 +21,20 @@
     <label for="first">First visit</label>
     <input id="first" type="first" name="first" />
 
+    <label for="professional-select"> Professional:
+      <select name="professional">
+        <option disable selected value=""></option>
+        {{#each professional}}
+          <option value="{{this._id}}"> {{this.username}} </option>
+        {{/each}}
+      </select>
+    </label>
+
     <button type="submit">Add</button>
 </form>
+
+{{!-- <div>
+  {{#if message}}
+    <p><b>{{message}}</b></p>
+  {{/if}}
+</div> --}}
