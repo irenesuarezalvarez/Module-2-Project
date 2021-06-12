@@ -1,7 +1,6 @@
 require('dotenv').config();
 const path = require("path");
 const cookieParser = require("cookie-parser");
-
 const express = require("express");
 //require('./config/session.config')(app);
 const mongoose = require("mongoose");
@@ -9,6 +8,7 @@ const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
 const favicon = require("serve-favicon");
+const {authUser, authRole} = require('./routes/basicAuth')
 
 const DB_NAME = process.env.MONGODB_URI;
  
@@ -65,10 +65,11 @@ app.use(express.static(__dirname + '/public'));
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 //require('./error-handling')(app);
 
+
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login-routes.js'));
 app.use('/signup', require('./routes/signup-routes.js'));
-app.use('/patients', require('./routes/patients-routes'));
+app.use( '/patients', authUser, require('./routes/patients-routes')); //NEW AUTHORIZATION
 
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));

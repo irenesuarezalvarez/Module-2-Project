@@ -6,13 +6,18 @@ const Professional = require('../models/Professional.model'); ///NEW
 
 //LIST PATIENTS
 router.get('/', (req, res) => { 
-  Patient.find()
-    .populate('professional')
-    .then(patients => {
-      console.log('HOLA IRENE AQUIIIII, patients route get', patients);
-      res.render('patients/list-of-patients', { patients })
+  const userId = req.session.user._id;
+  if(!userId){
+    res.redirect('/')
+  }else{
+    Professional.findById(userId)
+    .populate('patients')
+    .then(professional => {
+      res.render('patients/list-of-patients', { professional })
     })
     .catch(err => console.log(err))
+  }
+  
 });
 
 //CREATE PATIENTS
@@ -25,15 +30,15 @@ router.get('/create', (req, res) => {
   
 });
 
-router.post('/create', (req, res, next) => { 
- const { name, firstSurname, secondSurname, email, phone, address, first, professional } = req.body;
-
- Patient.create({ name, firstSurname, secondSurname, email, phone, address, first, professional })
+router.post('/create', (req, res) => { 
+  const { name, firstSurname, secondSurname, email, phone, address, newPatient = false, professional } = req.body;
+  const isnewPatient = newPatient === "on" 
+  console.log('==>',isnewPatient)
+  Patient.create({ name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional })
     .then((patientsFromDb) => {
       return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
     }) 
     .then((pat) =>{
-      console.log(pat);
       res.redirect('/patients')
     })
     .catch(error => console.log(`Error while creating a new patient:`, error));
@@ -42,7 +47,6 @@ router.post('/create', (req, res, next) => {
 //EDIT PATIENT
 router.get('/:id/edit', (req, res) => {
   const { id } = req.params;
- 
   Patient.findById(id)
     .then((patientToEdit) => res.render('patients/edit-patient', {patient : patientToEdit}))
     .catch(error => next(error));
@@ -51,9 +55,10 @@ router.get('/:id/edit', (req, res) => {
 
 router.post('/:id/edit', (req, res) => {
   const { id } = req.params;
-  const {  name, firstSurname, secondSurname, email, phone, address, first, professional } = req.body;
- 
-  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, first, professional }, { new: true }) //WHY WE NEED THE NEW?
+  const {  name, firstSurname, secondSurname, email, phone, address, newPatient = false, professional } = req.body;
+  const isnewPatient = newPatient === "on"
+  console.log(req.body)
+  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional }, { new: true }) //WHY WE NEED THE NEW?
     .then(() => res.redirect('/patients'))
     .catch(error => next(error));
 });
@@ -65,6 +70,15 @@ router.post('/:id/delete', (req, res) => {
   Patient.findByIdAndDelete(id)
     .then(() => res.redirect('/patients'))
     .catch(error => next(error)); //WHY NEXT IN HERE?
+});
+
+//DETAILS
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+ 
+  Patient.findById(id)
+    .then((patient) => res.render('patients/details-patient', {patient : patient}))
+    .catch(error => next(error));
 });
 
 
