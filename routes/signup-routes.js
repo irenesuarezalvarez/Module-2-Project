@@ -12,8 +12,8 @@ router.get('/', (req, res) => res.render('authentication/signup'));
 
 //SIGNUP POST ROUTE
 router.post('/', (req, res, next) => {
-  const { username, email, password, role } = req.body;
-  if (!username || !email || !password || !role) {
+  const { role, username, email, password } = req.body;
+  if (!username || !email || !password ) {
     res.render('authentication/signup', { errorMessage: 'All fields are mandatory. Please provide your username, role, email and password.' });
     return;
   }
@@ -33,8 +33,8 @@ router.post('/', (req, res, next) => {
     .then(salt => bcryptjs.hash(password, salt))
     .then(hashedPassword => {
       return Professional.create({
-        username,
         role,
+        username,
         email,
         // passwordHash => this is the key from the User model
         passwordHash: hashedPassword //|--> this is placeholder (how we named returning value from the previous method (.hash()))

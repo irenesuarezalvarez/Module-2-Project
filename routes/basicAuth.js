@@ -9,11 +9,13 @@ function authUser(req, res, next){
 
 function authRole(role){
     return (req, res, next) => {
-        if(req.session.user.role == !role){
+        if(req.session.user.role === role){
+            next()
+        }else{
             res.status(401)
             return res.send('Not allowed')
         }
-        next()
+        
     }
 }
 

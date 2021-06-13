@@ -12,13 +12,19 @@ router.get('/', (req, res) => {
     res.redirect('/')
   }else{
     if(req.session.user.role === "admin"){
-      Professional.find()
+      Professional.findById(userId)
+      .populate('patients')
+      .then(professional => {
+      res.render('patients/list-of-patients', { professional })
+    })
+    .catch(err => console.log(err))
+      /* Professional.find()
         .populate('patients')
         .then(professional => {
         console.log(professional)
-        res.render('patients/list-of-patients', { professional })
+        res.render('patients/list-of-patients', { professional }) 
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err))*/
     }else{
       Professional.findById(userId)
         .populate('patients')

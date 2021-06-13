@@ -3,13 +3,15 @@ const Schema = mongoose.Schema;
 
 const professionalSchema = new Schema(
     {
+      role: {
+        type: String
+      },
       username: {
         type: String,
         trim: true,
         required: [true, 'Username is required.'],
         unique: true
       },
-      role: String,
       email: {
         type: String,
         required: [true, 'Email is required.'],
