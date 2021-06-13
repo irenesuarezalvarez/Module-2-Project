@@ -11,17 +11,27 @@ router.get('/', (req, res) => {
   if(!userId){
     res.redirect('/')
   }else{
-    Professional.findById(userId)
-    .populate('patients')
-    /* .then(professional.role === admin){
-      Patient.find(){
+    if(req.session.user.role === "admin"){
+      Professional.find()
+        .populate('patients')
+        .then(professional => {
+        console.log(professional)
         res.render('patients/list-of-patients', { professional })
-      }
-    } */
-    .then(professional => {
-      res.render('patients/list-of-patients', { professional })
     })
     .catch(err => console.log(err))
+    }else{
+      Professional.findById(userId)
+        .populate('patients')
+        /* .then(professional.role === admin){
+          Patient.find(){
+            res.render('patients/list-of-patients', { professional })
+          }
+        } */
+      .then(professional => {
+        res.render('patients/list-of-patients', { professional })
+      })
+      .catch(err => console.log(err))
+    }
   }
   
 });

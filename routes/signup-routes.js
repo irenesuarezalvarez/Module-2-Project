@@ -42,7 +42,8 @@ router.post('/', (req, res, next) => {
     })
     .then(userFromDB => {
       console.log('Newly created user is: ', userFromDB);
-      res.redirect('patients');
+      req.session.user = userFromDB;
+      res.redirect("/patients") //('/patients');
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {

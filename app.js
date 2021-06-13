@@ -11,6 +11,8 @@ const favicon = require("serve-favicon");
 const {authUser} = require('./routes/basicAuth');
 const hbs = require("hbs");
 
+
+//DATA BASE
 const DB_NAME = process.env.MONGODB_URI;
  
 mongoose.connect(DB_NAME, {
