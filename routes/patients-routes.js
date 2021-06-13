@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model'); ///NEW
+const { authRole } = require('./basicAuth')
 
 
 //LIST PATIENTS
@@ -12,6 +13,11 @@ router.get('/', (req, res) => {
   }else{
     Professional.findById(userId)
     .populate('patients')
+    /* .then(professional.role === admin){
+      Patient.find(){
+        res.render('patients/list-of-patients', { professional })
+      }
+    } */
     .then(professional => {
       res.render('patients/list-of-patients', { professional })
     })
@@ -38,7 +44,7 @@ router.post('/create', (req, res) => {
     .then((patientsFromDb) => {
       return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
     }) 
-    .then((pat) =>{
+    .then(() =>{
       res.redirect('/patients')
     })
     .catch(error => console.log(`Error while creating a new patient:`, error));
@@ -48,7 +54,10 @@ router.post('/create', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   const { id } = req.params;
   Patient.findById(id)
-    .then((patientToEdit) => res.render('patients/edit-patient', {patient : patientToEdit}))
+    .then((patientToEdit) => {
+      console.log('PATIENT TO EEEEEEDIT', patientToEdit)
+      res.render('patients/edit-patient', {patient : patientToEdit})
+    })
     .catch(error => next(error));
 });
 
@@ -57,8 +66,7 @@ router.post('/:id/edit', (req, res) => {
   const { id } = req.params;
   const {  name, firstSurname, secondSurname, email, phone, address, newPatient = false, professional } = req.body;
   const isnewPatient = newPatient === "on"
-  console.log(req.body)
-  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional }, { new: true }) //WHY WE NEED THE NEW?
+  Patient.findByIdAndUpdate(id, {  name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional }, { new: true })
     .then(() => res.redirect('/patients'))
     .catch(error => next(error));
 });
@@ -73,7 +81,7 @@ router.post('/:id/delete', (req, res) => {
 });
 
 //DETAILS
-router.get('/:id', (req, res) => {
+router.get('/:id', authRole("prof"), (req, res) => {
   const { id } = req.params;
  
   Patient.findById(id)

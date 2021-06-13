@@ -6,7 +6,12 @@ const router = express.Router();
 //HOME PAGE
 router.get("/", (req, res) => res.render("home"));
 
-//SIGN UP GET ROUTE
-router.get('/signup', (req, res) => res.render('signup'));
+
+//LOG OUT ROUTES
+router.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
+
 
 module.exports = router;

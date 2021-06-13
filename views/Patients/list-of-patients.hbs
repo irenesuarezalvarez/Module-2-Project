@@ -1,3 +1,4 @@
+{{> navbar }}
 {{#if professional}} 
     <h2>Welcome,  {{ professional.username }}!</h2>
     <a href="/patients/create">New Patient</a>
@@ -18,7 +19,7 @@
         </form>
         {{/each}}
     </ul>
-{{else}} 
+{{else}}
     <h1>HELLO YOU ARE IN LIST OF PATIENTS VIEW</h1>
     <p>Still no logged in, sorry! Log in or sign up to access to your list of patients</p>
 {{/if}} 

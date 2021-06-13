@@ -8,7 +8,8 @@ const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
 const favicon = require("serve-favicon");
-const {authUser, authRole} = require('./routes/basicAuth')
+const {authUser} = require('./routes/basicAuth');
+const hbs = require("hbs");
 
 const DB_NAME = process.env.MONGODB_URI;
  
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//SESSION
 app.set("trust proxy", 1);
 app.use(session({
   secret: process.env.SESS_SECRET,
@@ -31,7 +33,11 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 24 * 60 * 60 * 365 * 1000
-  }
+  },
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 60*60*24
+  })
 })) 
 
 /* app.use(
@@ -59,6 +65,7 @@ app.use(passport.session())
 app.set("views", path.join(__dirname, ".", "views"));
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "..", "public")));
+hbs.registerPartials(__dirname + "/views/partials");
 
 app.use(express.static(__dirname + '/public')); 
 
@@ -69,8 +76,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login-routes.js'));
 app.use('/signup', require('./routes/signup-routes.js'));
-app.use( '/patients', authUser, require('./routes/patients-routes')); //NEW AUTHORIZATION
-
+app.use( '/patients', authUser, require('./routes/patients-routes'));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 

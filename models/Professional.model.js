@@ -9,6 +9,7 @@ const professionalSchema = new Schema(
         required: [true, 'Username is required.'],
         unique: true
       },
+      role: String,
       email: {
         type: String,
         required: [true, 'Email is required.'],

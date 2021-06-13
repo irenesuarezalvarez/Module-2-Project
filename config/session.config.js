@@ -1,25 +1,27 @@
 //FILE NOT USED FOR NOW
-const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
 
 // since we are going to USE this middleware in the app.js,
 // let's export it and have it receive a parameter
-module.exports = app => {
+module.exports = (app) => {
+  app.set('trust proxy', 1);
   app.use(
     session({
       secret: process.env.SESS_SECRET,
       resave: true,
       saveUninitialized: false,
       cookie: {
-        sameSite: 'none',
+        sameSite: process.env.NODE_ENV === 'production'? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 60000,
+        maxAge: 60000*60,
         secure: true
       },
       store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI,
-        ttl: 60*60*24
+        //ttl: 60*60*24
       })
     })
   );
