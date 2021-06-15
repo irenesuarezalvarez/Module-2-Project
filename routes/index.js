@@ -1,12 +1,17 @@
 const express = require('express');
-const mongoose = require('mongoose'); //do I need this?
+//const mongoose = require('mongoose'); //do I need this?
 const router = express.Router();
 
 
-/* GET home page */
+//HOME PAGE
 router.get("/", (req, res) => res.render("home"));
 
-//SIGN UP GE ROUTE
-router.get('/signup', (req, res) => res.render('signup'));
+
+//LOG OUT ROUTES
+router.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
+
 
 module.exports = router;

@@ -1,5 +1,4 @@
-{{!-- views/books-edit.hbs --}}
-
+{{> navbar }}
 <h2>Edit the patient: {{patient.firstSurname}} {{patient.secondSurname}}, {{patient.name}}</h2>
 
 <form action="/patients/{{patient.id}}/edit" method="POST">
@@ -33,10 +32,18 @@
         <textarea name="address" cols="30" rows="4">{{patient.address}}</textarea>
      </label>
 
-
     <label>
-        first:
-        <input type="text" name="first"  value="{{patient.first}}" />
+        New Patient:
+        <input type="checkbox" name="newPatient"  checked="{{patient.newPatient}}" />
+    </label>
+
+    <label for="professional-select"> Professional:
+      <select name="professional-select">
+        <option disable selected value=""></option>
+        {{#each professional}}
+          <option value="{{this._id}}"> {{this.username}} </option>
+        {{/each}}
+      </select>
     </label>
 
     <button>Save changes</button>

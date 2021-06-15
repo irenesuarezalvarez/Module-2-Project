@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 const professionalSchema = new Schema(
     {
+      role: {
+        type: String
+      },
       username: {
         type: String,
         trim: true,
@@ -20,7 +23,8 @@ const professionalSchema = new Schema(
       passwordHash: {
           type: String,
           required: [true, 'Password is required.']
-      }
+      },
+      patients: [{ type: Schema.Types.ObjectId, ref: 'Patient'}] //NEW
     },
     {
       timestamps: true

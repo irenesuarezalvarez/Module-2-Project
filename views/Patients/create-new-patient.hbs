@@ -1,4 +1,5 @@
-<form action="" method="POST">
+{{> navbar }}
+<form action="" method="POST"> {{!-- NEW action ????--}}
 
     <label for="name">Name</label>
     <input id="name" type="name" name="name" />
@@ -16,10 +17,25 @@
     <input id="phone" type="phone" name="phone" />
 
     <label for="address">Address</label>
-    <input id="address" type="address" name="address" />
+    <input id="address" type="text" name="address" />
 
-    <label for="first">First visit</label>
-    <input id="first" type="first" name="first" />
-
+    <label for="check">New Patient</label>
+    <input id="check" type="checkbox" name="newPatient" checked="checked"/>
+  
+    <label for="professional-select"> Professional:
+      <select name="professional">
+        <option disable selected value=""></option>
+        {{#each professional}}
+          <option value="{{this._id}}"> {{this.username}} </option>
+        {{/each}}
+      </select>
+    </label>
+ 
     <button type="submit">Add</button>
 </form>
+
+{{!-- <div>
+  {{#if message}}
+    <p><b>{{message}}</b></p>
+  {{/if}}
+</div> --}}
