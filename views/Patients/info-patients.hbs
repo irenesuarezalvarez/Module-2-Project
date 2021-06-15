@@ -1,0 +1,18 @@
+{{> navbar }}
+
+<div class="container d-flex flex-column align-items-center justify-content-center">
+    <h2 class="my-4 text-center">Information</h2>
+
+    <div class="card text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{patient.firstSurname}} {{patient.secondSurname}}, {{patient.name}}</h5>
+            <p class="card-text">{{patient.email}}</p>
+            <p class="card-text">{{patient.phone}}</p>
+            <p class="card-text">{{patient.address}}</p>
+            <p class="card-text">{{patient.professional}}</p>
+            <p class="card-text">New Patient: {{patient.newPatient}}</p>
+            
+            <a href="edit" class="btn btn-success">Edit</a>
+    </div>
+   
+</div>

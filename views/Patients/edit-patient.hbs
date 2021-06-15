@@ -1,50 +1,57 @@
 {{> navbar }}
-<h2>Edit the patient: {{patient.firstSurname}} {{patient.secondSurname}}, {{patient.name}}</h2>
 
-<form action="/patients/{{patient.id}}/edit" method="POST">
-    <label>
-        Name:
-        <input type="text" name="name" value="{{patient.name}}" />
-    </label>
+<div class="container">
+    <h2 class="my-4 text-center">Edit the patient: {{patient.firstSurname}} {{patient.secondSurname}}, {{patient.name}}</h2>
+    <form action="/patients/{{patient.id}}/edit" method="POST" class="form-inline justify-content-center flex-column flex-md-row">
 
-    <label>
-        First surname:
-        <input type="text" name="firstSurname" value="{{patient.firstSurname}}" />
-    </label>
+        <div class="form-group my-2">
+            <label class="mx-2"> Name: </label>
+            <input type="text" name="name" value="{{patient.name}}" class="form-control" />
+        </div>
+        
+        <div class="form-group my-2">
+            <label class="mx-2">First surname:</label>
+            <input type="text" name="firstSurname" value="{{patient.firstSurname}}" class="form-control"/>
+        </div>
 
-    <label>
-        Second surname:
-        <input type="text" name="secondSurname" value="{{patient.secondSurname}}" />
-    </label>
+        <div class="form-group my-2">
+            <label class="mx-2">Second surname:</label>
+            <input type="text" name="secondSurname" value="{{patient.secondSurname}}" class="form-control"/>
+        </div>
 
-    <label>
-        Email:
-        <input type="email" name="email" value="{{patient.email}}" />
-    </label>
+        <div class="form-group my-2">
+            <label class="mx-2">Email:</label>
+            <input type="email" name="email" value="{{patient.email}}" class="form-control"/>
+        </div>
 
-     <label>
-        phone:
-        <input type="number" name="phone" value="{{patient.phone}}" />
-    </label>
+        <div class="form-group my-2">
+            <label class="mx-2">Phone:</label>
+            <input type="number" name="phone" value="{{patient.phone}}" class="form-control"/>
+        </div>
 
-     <label>
-        Address:
-        <textarea name="address" cols="30" rows="4">{{patient.address}}</textarea>
-     </label>
+        <div class="form-group my-2">
+            <label class="mx-2">Address:</label>
+            <textarea name="address" cols="30" rows="4" class="form-control">{{patient.address}}</textarea>
+        </div>
 
-    <label>
-        New Patient:
-        <input type="checkbox" name="newPatient"  checked="{{patient.newPatient}}" />
-    </label>
+        <div class="form-group">
+            <label for="professional-select" class="my-2"> Professional:</label>
+                <select name="professional-select" class="form-control">
+                <option disable selected value="">
+                {{#each professional}}
+                    <option value="{{this._id}}"> {{this.username}} </option>
+                {{/each}}
+                </select>
+        </div>
 
-    <label for="professional-select"> Professional:
-      <select name="professional-select">
-        <option disable selected value=""></option>
-        {{#each professional}}
-          <option value="{{this._id}}"> {{this.username}} </option>
-        {{/each}}
-      </select>
-    </label>
+          
+        <div class="form-check my-2">
+            <label class="mx-2">New Patient:</label>
+            <input type="checkbox" name="newPatient"  checked="{{patient.newPatient}}"/>
+        </div>
 
-    <button>Save changes</button>
-</form>
+        <div class="form-group mx-2 my-4">
+            <button class="btn btn-success col-12">Save changes</button>
+        </div>
+    </form>
+</div>

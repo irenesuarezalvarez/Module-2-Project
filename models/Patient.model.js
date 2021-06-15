@@ -10,7 +10,8 @@ const patientSchema = new Schema({
     address: String,
     newPatient: Boolean,
     //history: String,
-    professional: { type: Schema.Types.ObjectId, ref: 'Professional' }, //????
+    professional: { type: Schema.Types.ObjectId, ref: 'Professional' },
+    history: String
 });
 
 
