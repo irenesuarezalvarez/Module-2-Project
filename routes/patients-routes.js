@@ -8,6 +8,7 @@ const { authRole } = require('./basicAuth')
 //LIST PATIENTS
 router.get('/', (req, res) => { 
   const userId = req.session.user._id;
+  console.log(req.session.user)
   if(!userId){
     res.redirect('/')
   }else{
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
       Professional.findById(userId)
       .populate('patients')
       .then(professional => {
+        console.log('PROFESSIONAL =>',professional)
       res.render('patients/list-of-patients', { professional })
     })
     .catch(err => console.log(err))
@@ -44,6 +46,7 @@ router.get('/', (req, res) => {
 
 //CREATE PATIENTS
 router.get('/create', (req, res) => {
+  const user = req.session.user;
   Professional.find()
   .then((professional) => {
     res.render("patients/create-new-patient", { professional });
@@ -55,7 +58,6 @@ router.get('/create', (req, res) => {
 router.post('/create', (req, res) => { 
   const { name, firstSurname, secondSurname, email, phone, address, newPatient = false, professional } = req.body;
   const isnewPatient = newPatient === "on" 
-  console.log('==>',isnewPatient)
   Patient.create({ name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional })
     .then((patientsFromDb) => {
       return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
@@ -71,8 +73,12 @@ router.get('/:id/edit', (req, res) => {
   const { id } = req.params;
   Patient.findById(id)
     .then((patientToEdit) => {
-      console.log('PATIENT TO EEEEEEDIT', patientToEdit)
-      res.render('patients/edit-patient', {patient : patientToEdit})
+      Professional.find()
+      .then((professional) => {
+        console.log('PATIENT TO EEEEEEDIT', professional)
+        res.render('patients/edit-patient', {patient : patientToEdit, professional})
+      })
+      .catch((err) => console.log(`Err while displaying post input page: ${err}`));
     })
     .catch(error => next(error));
 });

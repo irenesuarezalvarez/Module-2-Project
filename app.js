@@ -66,10 +66,10 @@ app.use(passport.session())
 
 app.set("views", path.join(__dirname, ".", "views"));
 app.set("view engine", "hbs");
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "public")));
 hbs.registerPartials(__dirname + "/views/partials");
 
-app.use(express.static(__dirname + '/public')); 
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 //require('./error-handling')(app);

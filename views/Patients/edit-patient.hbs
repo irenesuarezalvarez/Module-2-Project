@@ -40,8 +40,8 @@
     <label for="professional-select"> Professional:
       <select name="professional-select">
         <option disable selected value=""></option>
-        {{#each patient}}
-          <option value="{{this}}"> {{this}} </option>
+        {{#each professional}}
+          <option value="{{this._id}}"> {{this.username}} </option>
         {{/each}}
       </select>
     </label>
