@@ -9,7 +9,6 @@ const patientSchema = new Schema({
     phone: Number,
     address: String,
     newPatient: Boolean,
-    //history: String,
     professional: { type: Schema.Types.ObjectId, ref: 'Professional' },
     history: String
 });

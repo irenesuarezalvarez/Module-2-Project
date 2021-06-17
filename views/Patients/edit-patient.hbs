@@ -33,17 +33,16 @@
             <label class="mx-2">Address:</label>
             <textarea name="address" cols="30" rows="4" class="form-control">{{patient.address}}</textarea>
         </div>
-
+        <h2>{{patient.professional.username}}</h2>
         <div class="form-group">
-            <label for="professional-select" class="my-2"> Professional:</label>
-                <select name="professional-select" class="form-control">
-                <option disable selected value="">
+            <label for="professional" class="my-2"> Professional:</label>
+                <select name="professional" class="form-control">
+                <option selected >{{patient.professional.username}}</option>
                 {{#each professional}}
                     <option value="{{this._id}}"> {{this.username}} </option>
                 {{/each}}
                 </select>
         </div>
-
           
         <div class="form-check my-2">
             <label class="mx-2">New Patient:</label>
@@ -54,4 +53,7 @@
             <button class="btn btn-success col-12">Save changes</button>
         </div>
     </form>
+    <div class="form-group mx-2 my-4">
+            <a href="/patients" class="btn btn-secondary col-12">Discart</a>
+    </div>
 </div>
