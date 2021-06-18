@@ -13,9 +13,9 @@ const hbs = require("hbs");
 
 
 //DATA BASE
-const DB_NAME = process.env.MONGODB_URI;
+//const DB_NAME = process.env.MONGODB_URI;
  
-mongoose.connect(DB_NAME, {
+mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -83,6 +83,6 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
+//const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))
 
