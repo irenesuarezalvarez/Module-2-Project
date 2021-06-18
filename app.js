@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const express = require("express");
-//require('./config/session.config')(app);
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
@@ -18,8 +17,12 @@ const DB_NAME = process.env.MONGODB_URI;
 mongoose.connect(DB_NAME, {
   useCreateIndex: true,
   useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+  useUnifiedTopology: true,
+}).then(() =>
+  console.log(
+  `Successfully connected to the database ${DB_NAME}`
+)
+);
 
 const app = express()
 
@@ -42,23 +45,6 @@ app.use(session({
   })
 })) 
 
-/* app.use(
-  session({
-    secret: process.env.SESS_SECRET,
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      sameSite: 'none',
-      httpOnly: true,
-      maxAge: 60000,
-      secure: true
-    },
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      ttl: 60*60*24
-    })
-  })
-); */
  
 app.use(passport.initialize())
 // Enable authentication using session + passport
@@ -83,6 +69,6 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
+//const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))
 

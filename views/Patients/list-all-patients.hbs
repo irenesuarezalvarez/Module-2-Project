@@ -1,9 +1,8 @@
 {{> navbar }}
 <div class="container">
-    {{#if professional}} 
         <div class="d-flex flex-row justify-content-between my-4">
-            <h2>Welcome,  {{ professional.username }} !</h2>
-            <a href="/patients/create" class="btn btn-info col-2">New Patient</a>
+            <h2>Welcome to Talk !</h2>
+            <a href="/patients/create" class="btn btn-info col-2"><i class="bi bi-file-earmark-plus"></i> New Patient</a>
         </div>
     <table class="table table-responsive">
         <thead>
@@ -16,14 +15,14 @@
         </thead>
         <tbody>
 
-            {{#each professional.patients}}
+            {{#each patients}}
                 <tr>
                     <th scope="row"> {{this.firstSurname}}</th>
                     <td> {{this.secondSurname}}</td>
                     <td> {{this.name}}</td>
                     <td class="d-flex flex-row justify-content-end">
-                        <a href="/patients/{{id}}" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
-                        <a href="/patients/{{id}}/info" class="btn btn-primary"><i class="bi bi-info-circle"></i></a>
+                        <a href="/calendar" class="btn btn-primary"><i class="bi bi-calendar-event"></i></a>
+                        <a href="/patients/{{id}}/edit" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
                         <form action="/patients/{{id}}/delete" method="POST">
                             <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
                         </form>
@@ -33,9 +32,5 @@
 
         </tbody>
     </table>
-    
-    {{else}}
-        <p class="p-3 mb-2 bg-danger text-white">Still no logged in, sorry! Log in or sign up to access to the list of patients</p>
-    {{/if}}
 </div>
     

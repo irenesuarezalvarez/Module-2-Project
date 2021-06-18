@@ -8,37 +8,22 @@ const { authRole } = require('./basicAuth')
 //LIST PATIENTS
 router.get('/', (req, res) => { 
   const userId = req.session.user._id;
-  console.log(req.session.user)
   if(!userId){
     res.redirect('/')
   }else{
     if(req.session.user.role === "admin"){
-      Professional.findById(userId)
-      .populate('patients')
-      .then(professional => {
-        console.log('PROFESSIONAL =>',professional)
-      res.render('patients/list-of-patients', { professional })
+      Patient.find()
+      .then(patients => {
+      res.render('patients/list-all-patients', { patients })
     })
     .catch(err => console.log(err))
-      /* Professional.find()
-        .populate('patients')
-        .then(professional => {
-        console.log(professional)
-        res.render('patients/list-of-patients', { professional }) 
-    })
-    .catch(err => console.log(err))*/
     }else{
       Professional.findById(userId)
         .populate('patients')
-        /* .then(professional.role === admin){
-          Patient.find(){
-            res.render('patients/list-of-patients', { professional })
-          }
-        } */
-      .then(professional => {
-        res.render('patients/list-of-patients', { professional })
-      })
-      .catch(err => console.log(err))
+        .then(professional => {
+          res.render('patients/list-of-patients', { professional })
+        })
+        .catch(err => console.log(err))
     }
   }
   
@@ -56,9 +41,9 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', (req, res) => { 
-  const { name, firstSurname, secondSurname, email, phone, address, newPatient = false, professional } = req.body;
+  const { name, firstSurname, secondSurname, email, phone, address, professional, newPatient = false } = req.body;
   const isnewPatient = newPatient === "on" 
-  Patient.create({ name, firstSurname, secondSurname, email, phone, address, newPatient : isnewPatient, professional })
+  Patient.create({ name, firstSurname, secondSurname, email, phone, address, professional, newPatient : isnewPatient })
     .then((patientsFromDb) => {
       return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
     }) 
@@ -72,10 +57,11 @@ router.post('/create', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   const { id } = req.params;
   Patient.findById(id)
+    .populate("professional")
     .then((patientToEdit) => {
       Professional.find()
       .then((professional) => {
-        console.log('PATIENT TO EEEEEEDIT', professional)
+        console.log('PATIENT TO EDIT routes', patientToEdit)
         res.render('patients/edit-patient', {patient : patientToEdit, professional})
       })
       .catch((err) => console.log(`Err while displaying post input page: ${err}`));
@@ -94,13 +80,21 @@ router.post('/:id/edit', (req, res) => {
 });
 
 //DELETE PATIENT
-router.post('/:id/delete', (req, res) => {
+router.post('/:id/delete', async (req, res) => {
   const { id } = req.params;
- 
-  Patient.findByIdAndDelete(id)
-    .then(() => res.redirect('/patients'))
-    .catch(error => next(error)); //WHY NEXT IN HERE?
+  try{
+    const patientArray = await Professional.findByIdAndUpdate(req.session.user._id, {
+        $pull: { patients: id },
+    });
+    
+    const deletePatient = await Patient.findByIdAndDelete(id)
+    return res.redirect('/patients')
+  }
+  catch(error) {
+    next(error)
+  }
 });
+
 
 //DETAILS
 router.get('/:id', authRole("prof"), (req, res) => {
@@ -111,5 +105,22 @@ router.get('/:id', authRole("prof"), (req, res) => {
     .catch(error => next(error));
 });
 
+router.post('/:id', authRole("prof"), (req, res) => {
+  const { id } = req.params;
+  const { history } = req.params;
+  Patient.findByIdAndUpdate(id, { history}, { new: true })
+    .then(() => res.redirect('patients'))
+    .catch(error => next(error));
+});
+
+
+//INFO PATIENT
+router.get('/:id/info', (req, res) => {
+  const { id } = req.params;
+  Patient.findById(id)
+    .populate("professional")
+    .then((patientInfo) => res.render('patients/info-patients', {patient : patientInfo}))
+    .catch(error => next(error));
+});
 
 module.exports = router;
