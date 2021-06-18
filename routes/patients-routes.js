@@ -80,24 +80,21 @@ router.post('/:id/edit', (req, res) => {
 });
 
 //DELETE PATIENT
-router.post('/:id/delete', /* async */ (req, res) => {
+router.post('/:id/delete', async (req, res) => {
   const { id } = req.params;
- 
-  Patient.findByIdAndDelete(id)
-    .then(() => res.redirect('/patients'))
-    .catch(error => next(error)); //WHY NEXT IN HERE?
-});
-/* 
-const { folderId } = req.params;
-  try {
-    await Professionals.findByIdAndUpdate(res.locals.sessionUser._id, {
-      $pull: { patients : id },
+  try{
+    const patientArray = await Professional.findByIdAndUpdate(req.session.user._id, {
+        $pull: { patients: id },
     });
-    await Professional.findByIdAndDelete(id);
-    return res.redirect("/profile");
-  } catch (err) {
-    next(err);
-  } */
+    
+    const deletePatient = await Patient.findByIdAndDelete(id)
+    return res.redirect('/patients')
+  }
+  catch(error) {
+    next(error)
+  }
+});
+
 
 //DETAILS
 router.get('/:id', authRole("prof"), (req, res) => {
@@ -111,7 +108,7 @@ router.get('/:id', authRole("prof"), (req, res) => {
 router.post('/:id', authRole("prof"), (req, res) => {
   const { id } = req.params;
   const { history } = req.params;
-  Patient.findByIdAndUpdate(id, { history}, { new: true }) //NEEEDED?
+  Patient.findByIdAndUpdate(id, { history}, { new: true })
     .then(() => res.redirect('patients'))
     .catch(error => next(error));
 });

@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const express = require("express");
-//require('./config/session.config')(app);
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
@@ -13,15 +12,15 @@ const hbs = require("hbs");
 
 
 //DATA BASE
-//const DB_NAME = process.env.MONGODB_URI;
+const DB_NAME = process.env.MONGODB_URI;
  
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(DB_NAME, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() =>
   console.log(
-  `Successfully connected to the database ${process.env.MONGODB_URI}`
+  `Successfully connected to the database ${DB_NAME}`
 )
 );
 
@@ -46,23 +45,6 @@ app.use(session({
   })
 })) 
 
-/* app.use(
-  session({
-    secret: process.env.SESS_SECRET,
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      sameSite: 'none',
-      httpOnly: true,
-      maxAge: 60000,
-      secure: true
-    },
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      ttl: 60*60*24
-    })
-  })
-); */
  
 app.use(passport.initialize())
 // Enable authentication using session + passport
