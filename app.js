@@ -18,8 +18,12 @@ const hbs = require("hbs");
 mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+  useUnifiedTopology: true,
+}).then(() =>
+  console.log(
+  `Successfully connected to the database ${process.env.MONGODB_URI}`
+)
+);
 
 const app = express()
 
